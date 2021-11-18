@@ -246,18 +246,18 @@ def show_go_screen():
                 waiting = False
 
 # Load all game graphics
-background = pygame.image.load(path.join(img_dir, "starfield.png")).convert()
+background = pygame.image.load(path.join("starfield.png")).convert()
 background_rect = background.get_rect()
-player_img = pygame.image.load(path.join(img_dir, "playerShip1_orange.png")).convert()
+player_img = pygame.image.load(path.join("playerShip1_orange.png")).convert()
 player_mini_img = pygame.transform.scale(player_img, (25, 19))
 player_mini_img.set_colorkey(BLACK)
-bullet_img = pygame.image.load(path.join(img_dir, "laserRed16.png")).convert()
+bullet_img = pygame.image.load(path.join("laserRed16.png")).convert()
 meteor_images = []
-meteor_list = ['meteorBrown_big1.png', 'meteorBrown_med1.png', 'meteorBrown_med1.png',
+meteor_list = ['meteorBrown_med1.png', 'meteorBrown_med1.png',
                'meteorBrown_med3.png', 'meteorBrown_small1.png', 'meteorBrown_small2.png',
                'meteorBrown_tiny1.png']
-for img in meteor_list:
-    meteor_images.append(pygame.image.load(path.join(img_dir, img)).convert())
+for i in range(0,len(meteor_list)):
+    meteor_images.append(pygame.image.load(meteor_list[i]).convert())
 explosion_anim = {}
 explosion_anim['lg'] = []
 explosion_anim['sm'] = []
