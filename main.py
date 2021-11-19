@@ -246,9 +246,9 @@ def show_go_screen():
                 waiting = False
 
 # Load all game graphics
-background = pygame.image.load(path.join("starfield.png")).convert()
+background = pygame.image.load(path.join("background.png")).convert()
 background_rect = background.get_rect()
-player_img = pygame.image.load(path.join("playerShip1_orange.png")).convert()
+player_img = pygame.image.load(path.join("space ship.png")).convert()
 player_mini_img = pygame.transform.scale(player_img, (25, 19))
 player_mini_img.set_colorkey(BLACK)
 bullet_img = pygame.image.load(path.join("laserRed16.png")).convert()
@@ -264,19 +264,19 @@ explosion_anim['sm'] = []
 explosion_anim['player'] = []
 for i in range(9):
     filename = 'regularExplosion0{}.png'.format(i)
-    img = pygame.image.load(path.join(img_dir, filename)).convert()
+    img = pygame.image.load(path.join(filename)).convert()
     img.set_colorkey(BLACK)
     img_lg = pygame.transform.scale(img, (75, 75))
     explosion_anim['lg'].append(img_lg)
     img_sm = pygame.transform.scale(img, (32, 32))
     explosion_anim['sm'].append(img_sm)
-    filename = 'sonicExplosion0{}.png'.format(i)
-    img = pygame.image.load(path.join(img_dir, filename)).convert()
+    filename = 'regularExplosion02.png'.format(i)
+    img = pygame.image.load(path.join( filename)).convert()
     img.set_colorkey(BLACK)
     explosion_anim['player'].append(img)
 powerup_images = {}
-powerup_images['shield'] = pygame.image.load(path.join(img_dir, 'shield_gold.png')).convert()
-powerup_images['gun'] = pygame.image.load(path.join(img_dir, 'bolt_gold.png')).convert()
+powerup_images['shield'] = pygame.image.load(path.join('shield_gold.png')).convert()
+powerup_images['gun'] = pygame.image.load(path.join('bolt_gold.png')).convert()
 
 
 # Load all game sounds
