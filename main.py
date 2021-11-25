@@ -120,7 +120,6 @@ class Player(pygame.sprite.Sprite):
                 bullet = Bullet(self.rect.centerx, self.rect.top)
                 all_sprites.add(bullet)
                 bullets.add(bullet)
-                shoot_sound.play()
             if self.power >= 2:
                 bullet1 = Bullet(self.rect.left, self.rect.centery)
                 bullet2 = Bullet(self.rect.right, self.rect.centery)
@@ -128,7 +127,6 @@ class Player(pygame.sprite.Sprite):
                 all_sprites.add(bullet2)
                 bullets.add(bullet1)
                 bullets.add(bullet2)
-                shoot_sound.play()
 
     def hide(self):
         # hide the player temporarily
@@ -245,10 +243,12 @@ def show_go_screen():
             if event.type == pygame.KEYUP:
                 waiting = False
 
+draw_text(screen, "GAME OVER!!", 64, WIDTH / 2, HEIGHT / 4)
+
 # Load all game graphics
 background = pygame.image.load(path.join("background.png")).convert()
 background_rect = background.get_rect()
-player_img = pygame.image.load(path.join("space ship.png")).convert()
+player_img = pygame.image.load(path.join("playerShip1_red.png")).convert()
 player_mini_img = pygame.transform.scale(player_img, (25, 19))
 player_mini_img.set_colorkey(BLACK)
 bullet_img = pygame.image.load(path.join("laserRed16.png")).convert()
@@ -275,22 +275,9 @@ for i in range(9):
     img.set_colorkey(BLACK)
     explosion_anim['player'].append(img)
 powerup_images = {}
-powerup_images['shield'] = pygame.image.load(path.join('shield_gold.png')).convert()
+powerup_images['shield'] = pygame.image.load(path.join('pill_red.png')).convert()
 powerup_images['gun'] = pygame.image.load(path.join('bolt_gold.png')).convert()
 
-
-# Load all game sounds
-shoot_sound = pygame.mixer.Sound(path.join(snd_dir, 'pew.wav'))
-shield_sound = pygame.mixer.Sound(path.join(snd_dir, 'pow4.wav'))
-power_sound = pygame.mixer.Sound(path.join(snd_dir, 'pow5.wav'))
-expl_sounds = []
-for snd in ['expl3.wav', 'expl6.wav']:
-    expl_sounds.append(pygame.mixer.Sound(path.join(snd_dir, snd)))
-player_die_sound = pygame.mixer.Sound(path.join(snd_dir, 'rumble1.ogg'))
-pygame.mixer.music.load(path.join(snd_dir, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
-pygame.mixer.music.set_volume(0.4)
-
-pygame.mixer.music.play(loops=-1)
 # Game loop
 game_over = True
 running = True
@@ -323,7 +310,6 @@ while running:
     hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
     for hit in hits:
         score += 50 - hit.radius
-        random.choice(expl_sounds).play()
         expl = Explosion(hit.rect.center, 'lg')
         all_sprites.add(expl)
         if random.random() > 0.9:
@@ -340,7 +326,6 @@ while running:
         all_sprites.add(expl)
         newmob()
         if player.shield <= 0:
-            player_die_sound.play()
             death_explosion = Explosion(player.rect.center, 'player')
             all_sprites.add(death_explosion)
             player.hide()
@@ -352,16 +337,15 @@ while running:
     for hit in hits:
         if hit.type == 'shield':
             player.shield += random.randrange(10, 30)
-            shield_sound.play()
             if player.shield >= 100:
                 player.shield = 100
         if hit.type == 'gun':
             player.powerup()
-            power_sound.play()
 
     # if the player died and the explosion has finished playing
     if player.lives == 0 and not death_explosion.alive():
         game_over = True
+        running = False
 
     # Draw / render
     screen.fill(BLACK)
