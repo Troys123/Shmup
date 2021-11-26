@@ -12,7 +12,7 @@ img_dir = path.join(path.dirname(__file__), 'img')
 snd_dir = path.join(path.dirname(__file__), 'snd')
 
 WIDTH = 480
-HEIGHT = 600
+HEIGHT = 500
 FPS = 60
 POWERUP_TIME = 5000
 
@@ -58,7 +58,7 @@ def draw_shield_bar(surf, x, y, pct):
 def draw_lives(surf, x, y, lives, img):
     for i in range(lives):
         img_rect = img.get_rect()
-        img_rect.x = x + 30 * i
+        img_rect.x = x + 70 * i
         img_rect.y = y
         surf.blit(img, img_rect)
 
@@ -73,10 +73,11 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
         self.speedx = 0
+        self.speedy = 0
         self.shield = 100
         self.shoot_delay = 250
         self.last_shot = pygame.time.get_ticks()
-        self.lives = 3
+        self.lives = 2
         self.hidden = False
         self.hide_timer = pygame.time.get_ticks()
         self.power = 1
@@ -100,9 +101,18 @@ class Player(pygame.sprite.Sprite):
             self.speedx = -8
         if keystate[pygame.K_RIGHT]:
             self.speedx = 8
+        if keystate[pygame.K_UP]:
+            self.speedy = -8
+        if keystate[pygame.K_DOWN]:
+            self.speedy = 8
         if keystate[pygame.K_SPACE]:
             self.shoot()
+
+
+
         self.rect.x += self.speedx
+        self.rect.y += self.speedy
+
         if self.rect.right > WIDTH:
             self.rect.right = WIDTH
         if self.rect.left < 0:
