@@ -58,7 +58,7 @@ def draw_shield_bar(surf, x, y, pct):
 def draw_lives(surf, x, y, lives, img):
     for i in range(lives):
         img_rect = img.get_rect()
-        img_rect.x = x + 70 * i
+        img_rect.x = x + 30 * i
         img_rect.y = y
         surf.blit(img, img_rect)
 
@@ -77,7 +77,7 @@ class Player(pygame.sprite.Sprite):
         self.shield = 100
         self.shoot_delay = 250
         self.last_shot = pygame.time.get_ticks()
-        self.lives = 2
+        self.lives = 3
         self.hidden = False
         self.hide_timer = pygame.time.get_ticks()
         self.power = 1
@@ -96,6 +96,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.bottom = HEIGHT - 10
 
         self.speedx = 0
+        self.speedy = 0
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_LEFT]:
             self.speedx = -8
@@ -117,6 +118,11 @@ class Player(pygame.sprite.Sprite):
             self.rect.right = WIDTH
         if self.rect.left < 0:
             self.rect.left = 0
+
+        if self.rect.bottom > WIDTH:
+            self.rect.bottom = WIDTH
+        if self.rect.top < 0:
+            self.rect.top = 0
 
     def powerup(self):
         self.power += 1
@@ -249,11 +255,15 @@ def show_go_screen():
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
+                Quit_Game()
             if event.type == pygame.KEYUP:
                 waiting = False
 
-draw_text(screen, "GAME OVER!!", 64, WIDTH / 2, HEIGHT / 4)
+
+def Quit_Game():
+    pygame.quit()
+if draw_text(screen, "GAME OVER!!!", 64, WIDTH / 2, HEIGHT * 3 / 4):
+    draw_text(screen, "Try again.", 18, WIDTH / 2, HEIGHT * 3 / 4)
 
 # Load all game graphics
 background = pygame.image.load(path.join("background.png")).convert()
