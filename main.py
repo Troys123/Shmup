@@ -255,15 +255,10 @@ def show_go_screen():
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                Quit_Game()
+                quit.game
             if event.type == pygame.KEYUP:
                 waiting = False
 
-
-def Quit_Game():
-    pygame.quit()
-if draw_text(screen, "GAME OVER!!!", 64, WIDTH / 2, HEIGHT * 3 / 4):
-    draw_text(screen, "Try again.", 18, WIDTH / 2, HEIGHT * 3 / 4)
 
 # Load all game graphics
 background = pygame.image.load(path.join("background.png")).convert()
